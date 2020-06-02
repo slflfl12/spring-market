@@ -1,5 +1,7 @@
 package kr.ac.hansung.cse.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,17 +21,25 @@ import lombok.ToString;
 @ToString
 @Entity // Hibernate = jpa + native
 @Table(name="product")
-public class Product {
+public class Product implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -567117648902464025L;
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) //IDENTITY는 auto_increment, AUTO는 TABLE, hibernate_sequence라는 테이블이 생긴다.
 	@Column(name="product_id", nullable = false, updatable = false) //null이 되면 안되고, 수정되면 안된다.
 	private int id;
 	
+	//@NotEmpty(message="The product name must not be null")
 	private String name;
 	
 	private String category;
 	
+	//@Min(value=0, message="The product price must not be less than zero")
 	private int price;
 	
 	private String manufacturer;
