@@ -3,15 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 
+<script src="<c:url value="/resources/js/controller.js" /> "></script>
+
+
 <div class="container-wrapper">
-	<div class="container">
+	<div class="container" ng-app="cartApp">
 		<h1>Product Detail</h1>
 		<p class="lead">Here is the detail information of the product!</p>
 
-		<div class="row">
+		<div class="row" ng-controller="cartCtrl">
 			<div class="col-md-6">
-				<img src="<c:url value="/resources/images/${product.imageFilename}" />" alt="image"
-					style="width: 80%" />
+				<img
+					src="<c:url value="/resources/images/${product.imageFilename}" />"
+					alt="image" style="width: 80%" />
 
 			</div>
 
@@ -28,6 +32,19 @@
 				</p>
 				<p>
 					<strong> 가격: </strong> ${product.price}만원
+				</p>
+
+				<p>
+					<a href="<c:url value="/products" />" class="btn btn-danger">Back</a>
+
+					<button class="btn btn-warning btn-large"
+						ng-click="addToCart('${product.id}')">
+						<i class="fas fa-shopping-cart"></i>Order Now
+					</button>
+
+					<a href="<c:url value="/cart" />" class="btn btn-info"> <i
+						class="fas fa-eye"></i> View Cart
+					</a>
 				</p>
 				<br>
 			</div>
