@@ -6,7 +6,7 @@ cartApp.controller("cartCtrl", function($scope, $http) { //이 컨트롤러가 �
 	$scope.initCartId = function(cartId) {
 		$scope.cartId = cartId;
 		$scope.refreshCart(); //refreshCart()가 호출이 됨
-
+		
 	};
 
 	$scope.refreshCart = function() {
@@ -14,7 +14,9 @@ cartApp.controller("cartCtrl", function($scope, $http) { //이 컨트롤러가 �
 		$http.get('/eStore/api/cart/' + $scope.cartId).then( //웹서버가 받게 됨
 				function successCallback(response) {
 					$scope.cart = response.data;
+					$scope.total = $scope.calGrandTotal();
 				});
+		
 	};
 
 	$scope.clearCart = function() {
@@ -29,23 +31,51 @@ cartApp.controller("cartCtrl", function($scope, $http) { //이 컨트롤러가 �
 		});
 
 	};
-	
-	$scope.addToCart = function(productId) {
-				
-		$http.put('/eStore/api/cart/cartItem/' + productId).then( //then이 callback function (응답이 왔을 때 아래 함수들을 수행함)
-				function successCallback() { //short format
-					alert("Product successfully added to the cart!");
 
+	$scope.addToCart = function(productId) {
+		
+		$http.put('/eStore/api/cart/cartItem/' + productId).then( //then이 callback function (응답이 왔을 때 아래 함수들을 수행함)
+		function successCallback() { //short format
+			alert("Product successfully added to the cart!");
+			$scope.refreshCart();
+		}, function errorCallback() {
+			alert("Adding to the cart failed!")
+		});
+		
+
+	};
+	
+	$scope.plustItem = function(product) {
+		
+		
+		$http.put('/eStore/api/cart/plusItem/' + product.id).then( //then이 callback function (응답이 왔을 때 아래 함수들을 수행함)
+		function successCallback() { //short format
+			alert("Product successfully added to the cart!");
+			$scope.refreshCart();
+		}, function errorCallback() {
+			alert("Adding to the cart failed!")
+		});
+		
+
+	};
+	
+	$scope.minusItem = function(product) {
+		
+		$http.put('/eStore/api/cart/minusItem/' + product.id).then( //then이 callback function (응답이 왔을 때 아래 함수들을 수행함)
+				function successCallback() { //short format
+					alert("Product successfully deleted from the cart!");
+					$scope.refreshCart();
 				}, function errorCallback() {
-					alert("Adding to the cart failed!")
+					alert("Deleting from the cart failed!")
 				});
 	};
 
-	$scope.removeFromCart = function(productId) {
+
+	$scope.removeFromCart = function(product) {
 		
 		$http({ //long format
 			method : 'DELETE',
-			url : '/eStore/api/cart/cartItem/' + productId
+			url : '/eStore/api/cart/cartItem/' + product.id
 		}).then(function successCallback() { //then이후 함수가 두개있는데 두개가 있으면 첫번째 것이 successCallbackFunction이고 두번째 것이 errorCallbackFunction
 			$scope.refreshCart();
 		}, function errorCallback(response) {
@@ -62,5 +92,7 @@ cartApp.controller("cartCtrl", function($scope, $http) { //이 컨트롤러가 �
 
 		return grandTotal;
 	};
+	
+		
 	
 });
