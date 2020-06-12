@@ -3,6 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+
+
+
+
+
 <script src="<c:url value="/resources/js/controller.js" /> "></script>
 
 <div class="container-wrapper">
@@ -24,13 +29,13 @@
 
 				<br/>
 				
-				<table  class="table table-hover">
+				<table  class="table table-hover" style="text-align: center;">
 					<tr>
 						<th>Product</th>
 						<th>Unit Price</th>
 						<th>Quantity</th>
 						<th>Total Price</th>
-						<th>Action</th>
+						<th style="width:300px;">Action</th>
 					</tr>
 					
 					<tr ng-repeat="item in cart.cartItems">
@@ -38,15 +43,20 @@
 						<td>{{item.product.price}}</td>
 						<td>{{item.quantity}}</td>
 						<td>{{item.totalPrice}}</td>
-						<td><a  class="btn btn-danger" ng-click="removeFromCart(item.product.id)"> 
-							<i class="fas fa-minus"></i>remove </a></td>
+						<td><a class="btn btn-danger btn-sm" ng-click="removeFromCart(item.product)"> 
+							<i class="fas fa-times"></i>remove</a>
+							<a  class="btn btn-danger btn-sm" ng-click="plustItem(item.product)"> 
+							<i class="fas fa-plus"></i>plus</a>
+							<a  class="btn btn-danger btn-sm" ng-click="minusItem(item.product)"> 
+							<i class="fas fa-minus"></i>minus</a>
+							</td>
 					</tr>
 					
 					<tr>
 						<td></td>
 						<td></td>
 						<td>Grand Total</td>
-						<td>{{calGrandTotal()}}</td>
+						<td>{{total}}</td>
 						<td></td>
 					</tr>
 				</table>
